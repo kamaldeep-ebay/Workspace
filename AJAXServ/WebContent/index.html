@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Insert title here</title>
+
+<script type="text/javascript">
+var xmlhttp;
+function createXMLHttpRequest() {
+
+	if (window.ActiveXObject) {
+		xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+	} else if (window.XMLHttpRequest) {
+		xmlhttp = new XMLHttpRequest();
+	}
+
+}
+
+function addemp()
+{
+	url = "FirstServlet?empno=";
+	var o = document.getElementById("empno").value;
+	var t = document.getElementById("name").value;
+	var th = document.getElementById("salary").value;
+	
+	url = url+o+"&name="+t+"&salary="+th;
+	url = url+"&operation=1";
+	//alert(url);
+	createXMLHttpRequest();
+	xmlhttp.onreadystatechange = displayData1
+	xmlhttp.open("GET", url, true);
+	xmlhttp.send();
+
+}
+function displayData1()
+{
+	document.getElementById('error').innerHTML = xmlhttp.responseText;
+}
+function displayData() {
+	if (xmlhttp.readyState == 4 && xmlhttp.status == 200) 
+		{
+		element = xmlhttp.responseXML.documentElement;
+		x=element.getElementsByTagName("EMP");
+		
+		txt = "<table border='1'><tr><th>EMPNO</th><th>NAME</th><th>SALARY</th></tr>";
+		
+		for (i = 0; i < x.length; i++) {
+			txt = txt + "<tr>";
+			xx = x[i].getElementsByTagName("EMPNO");
+			txt = txt + "<td>" + xx[0].firstChild.nodeValue + "</td>";
+
+			xx = x[i].getElementsByTagName("NAME");
+			txt = txt + "<td>" + xx[0].firstChild.nodeValue + "</td>";
+
+			xx = x[i].getElementsByTagName("SALARY");
+			txt = txt + "<td>" + xx[0].firstChild.nodeValue + "</td>";
+
+			txt = txt + "</tr>";
+
+		}
+		txt = txt + "</table>";
+		document.getElementById('error').innerHTML = txt;
+		}
+}
+function getemp()
+{
+	url = "FirstServlet?empno=";
+	var o = document.getElementById("empno").value;
+	var t = document.getElementById("name").value;
+	var th = document.getElementById("salary").value;
+	
+	url = url+o+"&name="+t+"&salary="+th;
+	url = url+"&operation=0";
+	//alert(url);
+	createXMLHttpRequest();
+	xmlhttp.onreadystatechange = displayData1
+	xmlhttp.open("GET", url, true);
+	xmlhttp.send();
+}
+</script>
+
+
+</head>
+<body>
+<H5>Please enter Your name</H5>
+<br>
+
+
+Emp no:
+<input type="text" id ="empno" >
+<br>
+Name : 
+<input type="text" id ="name">
+<br>
+Salary:
+<input type="text" id ="salary">
+<br>
+	<button onclick="addemp()">ADD</button>
+	<button onclick="getemp()">GET</button>
+
+	<div id="error"></div>
+	
+	
+
+
+</body>
+
+<!-- 
+<form action = FirstServlet method = GET>
+Emp no:
+<input type="text" name ="empno">
+<br>
+Name : 
+<input type="text" name ="name">
+<br>
+Salary:
+<input type="text" name ="salary">
+<br>
+<input type=SUBMIT value="ADD">
+<br>
+<input type=SUBMIT value="GET">
+
+</form>
+ -->
+</body>
+</html>
